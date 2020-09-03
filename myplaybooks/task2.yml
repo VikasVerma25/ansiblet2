@@ -1,0 +1,11 @@
+- hosts: localhost
+  gather_facts: no
+  roles:
+          - role: aws-webserver
+            count: 1
+            name: "webserver"
+
+- hosts: webserver
+  gather_facts: no
+  roles:
+          - role: config-server

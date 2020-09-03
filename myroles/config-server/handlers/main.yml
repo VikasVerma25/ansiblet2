@@ -1,0 +1,6 @@
+---
+# handlers file for config-server
+- name: service httpd
+  service:
+       name: httpd
+       state: restarted

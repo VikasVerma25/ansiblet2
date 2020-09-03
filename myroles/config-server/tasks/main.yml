@@ -1,0 +1,38 @@
+---
+# tasks file for config-server
+- name: install httpd package
+  package: 
+    name: 'httpd'
+    state: present
+  register: x 
+
+- name : start httpd service
+  service:
+          name: httpd
+          state: started
+  when: x.rc == 0        
+
+- name: creating directory
+  file:
+          state: directory
+          dest: "/var/www/vikas"
+  register: y        
+
+- name: copy web page from url
+  get_url:
+      dest: "/var/www/vikas"
+      url: "https://raw.githubusercontent.com/VikasVerma25/rcode/master/linux.html"
+  when: y.failed == false
+
+- name: change port and DocumentRoot in configuration file
+  lineinfile:
+        path: "/etc/httpd/conf/httpd.conf"
+        regexp: "{{ item.From }}"
+        line: "{{ item.To }}"
+        validate: "httpd -t -f %s"
+  with_items:
+          - { From: 'Listen 80', To: 'Listen 8181' }
+          - { From: 'DocumentRoot "/var/www/html"', To: 'DocumentRoot "/var/www/vikas"' }
+  when: x.rc == 0
+  notify: service httpd           
+          
