@@ -3,7 +3,7 @@
   roles:
           - role: aws-webserver
             count: 1
-            name: "webserver"
+            osname: "webserver"
 
 - hosts: tag_Nmae_webserver
   gather_facts: no
