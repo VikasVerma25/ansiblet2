@@ -1,5 +1,5 @@
 ---
 # vars file for aws-webserver
 count: 1
-name: "webserver"
+osname: "webserver"
 
