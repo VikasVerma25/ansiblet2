@@ -5,7 +5,7 @@
             count: 1
             name: "webserver"
 
-- hosts: webserver
+- hosts: tag_Nmae_webserver
   gather_facts: no
   roles:
           - role: config-server
