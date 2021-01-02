@@ -23,14 +23,8 @@
       vpc_subnet_id: "subnet-2f99f263"
       assign_public_ip: yes
       instance_tags:
-        Name: "{{ name }}"  
+        Name: "{{ osname }}"  
     register: ec2
-
-  - name: Add new instance to host group
-    add_host:
-        hostname: "{{ item.public_ip }}"
-        groupname: "{{ name }}"
-    loop: "{{ ec2.instances }}"
 
   - name: Wait for SSH to come up
     delegate_to: "{{ item.public_dns_name }}"
@@ -39,4 +33,6 @@
         timeout: 320
     loop: "{{ ec2.instances }}"
     
-
+  - name: Refresh the Inventory
+    meta: refresh_inventory
+    
